@@ -9,4 +9,7 @@ const router = express.Router();
 
 router.post("/:chatId", verifyToken, addMessage);
 
-export default router;
+export default router; 
+
+
+

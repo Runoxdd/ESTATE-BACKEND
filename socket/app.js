@@ -2,7 +2,10 @@ import { Server } from "socket.io";
 
 const io = new Server({
   cors: {
-    origin: "http://localhost:5173",
+    // Fixed: Removed trailing slashes - mobile browsers are strict about exact origin matching
+    origin: ["https://primenest-client.vercel.app"],
+    methods: ["GET", "POST"],
+    credentials: true,
   },
 });
 
@@ -30,7 +33,9 @@ io.on("connection", (socket) => {
 
   socket.on("sendMessage", ({ receiverId, data }) => {
     const receiver = getUser(receiverId);
-    io.to(receiver.socketId).emit("getMessage", data);
+    if (receiver) {
+      io.to(receiver.socketId).emit("getMessage", data);
+    }
   });
 
   socket.on("disconnect", () => {
@@ -38,4 +43,6 @@ io.on("connection", (socket) => {
   });
 });
 
-io.listen("4000");
+const PORT = process.env.PORT || 4000;
+io.listen(PORT);
+console.log(`Socket server is strictly listening on port ${PORT}`);

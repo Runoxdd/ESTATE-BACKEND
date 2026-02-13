@@ -8,6 +8,9 @@ import Login from "./routes/login/login";
 import Register from "./routes/register/register";
 import ProfileUpdatePage from "./routes/profileUpdatePage/profileUpdatePage";
 import NewPostPage from "./routes/newPostPage/newPostPage";
+import AssistantPage from "./routes/assistantPage/assistantPage";
+import AboutPage from "./routes/aboutPage/AboutPage";
+import ContactPage from "./routes/contactPage/ContactPage";
 import { listPageLoader, profilePageLoader, singlePageLoader } from "./lib/loaders";
 
 function App() {
@@ -16,48 +19,24 @@ function App() {
       path: "/",
       element: <Layout />,
       children: [
-        {
-          path: "/",
-          element: <HomePage />,
-        },
-        {
-          path: "/list",
-          element: <ListPage />,
-          loader: listPageLoader,
-        },
-        {
-          path: "/:id",
-          element: <SinglePage />,
-          loader: singlePageLoader,
-        },
-
-        {
-          path: "/login",
-          element: <Login />,
-        },
-        {
-          path: "/register",
-          element: <Register />,
-        },
+        { path: "/", element: <HomePage /> },
+        { path: "/list", element: <ListPage />, loader: listPageLoader },
+        { path: "/:id", element: <SinglePage />, loader: singlePageLoader },
+        { path: "/login", element: <Login /> },
+        { path: "/register", element: <Register /> },
+        { path: "/about", element: <AboutPage /> },
+        { path: "/contact", element: <ContactPage /> },
       ],
     },
     {
       path: "/",
       element: <RequireAuth />,
       children: [
-        {
-          path: "/profile",
-          element: <ProfilePage />,
-          loader: profilePageLoader
-        },
-        {
-          path: "/profile/update",
-          element: <ProfileUpdatePage />,
-        },
-        {
-          path: "/add",
-          element: <NewPostPage />,
-        },
+        { path: "/profile", element: <ProfilePage />, loader: profilePageLoader },
+        { path: "/profile/update", element: <ProfileUpdatePage /> },
+        { path: "/add", element: <NewPostPage /> },
+        { path: "/edit/:id", element: <NewPostPage />, loader: singlePageLoader }, // EDIT ROUTE
+        { path: "/assistant", element: <AssistantPage /> },
       ],
     },
   ]);

@@ -13,10 +13,15 @@ function ListPage() {
       <div className="listContainer">
         <div className="wrapper">
           <Filter />
-          <Suspense fallback={<p>Loading...</p>}>
+          <Suspense fallback={
+            <div className="loader">
+              <div className="spinner"></div>
+              <p>Scanning the archives...</p>
+            </div>
+          }>
             <Await
               resolve={data.postResponse}
-              errorElement={<p>Error loading posts!</p>}
+              errorElement={<p className="error">Data retrieval failed. Please reboot search.</p>}
             >
               {(postResponse) =>
                 postResponse.data.map((post) => (
@@ -28,10 +33,15 @@ function ListPage() {
         </div>
       </div>
       <div className="mapContainer">
-        <Suspense fallback={<p>Loading...</p>}>
+        <Suspense fallback={
+          <div className="loader">
+            <div className="spinner"></div>
+            <p>Syncing Map Coordinates...</p>
+          </div>
+        }>
           <Await
             resolve={data.postResponse}
-            errorElement={<p>Error loading posts!</p>}
+            errorElement={<p className="error">Map uplink disconnected.</p>}
           >
             {(postResponse) => <Map items={postResponse.data} />}
           </Await>

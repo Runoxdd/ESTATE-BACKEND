@@ -10,11 +10,10 @@ function Chat({ chats }) {
   const [chat, setChat] = useState(null);
   const { currentUser } = useContext(AuthContext);
   const { socket } = useContext(SocketContext);
-
   const messageEndRef = useRef();
-
   const decrease = useNotificationStore((state) => state.decrease);
 
+  // Auto-scroll to bottom on new message
   useEffect(() => {
     messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [chat]);
@@ -33,10 +32,8 @@ function Chat({ chats }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const formData = new FormData(e.target);
     const text = formData.get("text");
-
     if (!text) return;
     try {
       const res = await apiRequest.post("/messages/" + chat.id, { text });
@@ -44,7 +41,10 @@ function Chat({ chats }) {
       e.target.reset();
       socket.emit("sendMessage", {
         receiverId: chat.receiver.id,
-        data: res.data,
+        data: {
+          ...res.data,
+          chatId: chat.id,
+        },
       });
     } catch (err) {
       console.log(err);
@@ -61,15 +61,23 @@ function Chat({ chats }) {
     };
 
     if (chat && socket) {
+      // FIX: Kill old listeners before starting a new one to prevent double messages
+      socket.off("getMessage");
+
       socket.on("getMessage", (data) => {
         if (chat.id === data.chatId) {
-          setChat((prev) => ({ ...prev, messages: [...prev.messages, data] }));
+          setChat((prev) => ({ 
+            ...prev, 
+            messages: [...prev.messages, data] 
+          }));
           read();
         }
       });
     }
+    
+    // Cleanup on unmount or chat switch
     return () => {
-      socket.off("getMessage");
+      if (socket) socket.off("getMessage");
     };
   }, [socket, chat]);
 
@@ -79,19 +87,18 @@ function Chat({ chats }) {
         <h1>Messages</h1>
         {chats?.map((c) => (
           <div
-            className="message"
+            className={`message ${(!c.seenBy.includes(currentUser.id) && chat?.id !== c.id) ? "unread" : ""}`}
             key={c.id}
-            style={{
-              backgroundColor:
-                c.seenBy.includes(currentUser.id) || chat?.id === c.id
-                  ? "white"
-                  : "#fecd514e",
-            }}
             onClick={() => handleOpenChat(c.id, c.receiver)}
           >
-            <img src={c.receiver.avatar || "/noavatar.jpg"} alt="" />
-            <span>{c.receiver.username}</span>
-            <p>{c.lastMessage}</p>
+            <div className="avatarWrapper">
+              <img src={c.receiver.avatar || "/noavatar.jpg"} alt="" />
+              {(!c.seenBy.includes(currentUser.id) && chat?.id !== c.id) && <div className="onlineDot" />}
+            </div>
+            <div className="messageInfo">
+              <span>{c.receiver.username}</span>
+              <p>{c.lastMessage}</p>
+            </div>
           </div>
         ))}
       </div>
@@ -99,25 +106,15 @@ function Chat({ chats }) {
         <div className="chatBox">
           <div className="top">
             <div className="user">
-              <img src={chat.receiver.avatar || "noavatar.jpg"} alt="" />
-              {chat.receiver.username}
+              <img src={chat.receiver.avatar || "/noavatar.jpg"} alt="" />
+              <b>{chat.receiver.username}</b>
             </div>
-            <span className="close" onClick={() => setChat(null)}>
-              X
-            </span>
+            <span className="close" onClick={() => setChat(null)}>✕</span>
           </div>
           <div className="center">
             {chat.messages.map((message) => (
               <div
-                className="chatMessage"
-                style={{
-                  alignSelf:
-                    message.userId === currentUser.id
-                      ? "flex-end"
-                      : "flex-start",
-                  textAlign:
-                    message.userId === currentUser.id ? "right" : "left",
-                }}
+                className={`chatMessage ${message.userId === currentUser.id ? "own" : ""}`}
                 key={message.id}
               >
                 <p>{message.text}</p>
@@ -127,8 +124,10 @@ function Chat({ chats }) {
             <div ref={messageEndRef}></div>
           </div>
           <form onSubmit={handleSubmit} className="bottom">
-            <textarea name="text"></textarea>
-            <button>Send</button>
+            <textarea name="text" placeholder="Send a secure message..."></textarea>
+            <button>
+               <img src="/send.png" alt="Send" style={{width: '20px', filter: 'brightness(0) invert(1)'}} />
+            </button>
           </form>
         </div>
       )}

@@ -9,13 +9,11 @@ function ProfileUpdatePage() {
   const { currentUser, updateUser } = useContext(AuthContext);
   const [error, setError] = useState("");
   const [avatar, setAvatar] = useState([]);
-
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-
     const { username, email, password } = Object.fromEntries(formData);
 
     try {
@@ -23,13 +21,12 @@ function ProfileUpdatePage() {
         username,
         email,
         password,
-        avatar:avatar[0]
+        avatar: avatar[0]
       });
       updateUser(res.data);
       navigate("/profile");
     } catch (err) {
-      console.log(err);
-      setError(err.response.data.message);
+      setError(err.response?.data?.message || "Protocol override failed. Check credentials.");
     }
   };
 
@@ -37,7 +34,7 @@ function ProfileUpdatePage() {
     <div className="profileUpdatePage">
       <div className="formContainer">
         <form onSubmit={handleSubmit}>
-          <h1>Update Profile</h1>
+          <h1>Account Core Settings</h1>
           <div className="item">
             <label htmlFor="username">Username</label>
             <input
@@ -48,7 +45,7 @@ function ProfileUpdatePage() {
             />
           </div>
           <div className="item">
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email">Email Address</label>
             <input
               id="email"
               name="email"
@@ -57,18 +54,26 @@ function ProfileUpdatePage() {
             />
           </div>
           <div className="item">
-            <label htmlFor="password">Password</label>
-            <input id="password" name="password" type="password" />
+            <label htmlFor="password">Security Protocol (Password)</label>
+            <input 
+              id="password" 
+              name="password" 
+              type="password" 
+              placeholder="Leave blank to maintain current"
+            />
           </div>
-          <button>Update</button>
-          {error && <span>error</span>}
+          <button className="updateBtn">Update Identity</button>
+          {error && <span className="errorMsg">{error}</span>}
         </form>
       </div>
       <div className="sideContainer">
-        <img src={avatar[0] || currentUser.avatar || "/noavatar.jpg"} alt="" className="avatar" />
+        <div className="imageWrapper">
+          <img src={avatar[0] || currentUser.avatar || "/noavatar.jpg"} alt="User Avatar" className="avatar" />
+          <div className="scanLine"></div>
+        </div>
         <UploadWidget
           uwConfig={{
-            cloudName: "lamadev",
+            cloudName: "dfui2sgjw",
             uploadPreset: "estate",
             multiple: false,
             maxImageFileSize: 2000000,
@@ -76,6 +81,7 @@ function ProfileUpdatePage() {
           }}
           setState={setAvatar}
         />
+        <p className="hintText">image upload</p>
       </div>
     </div>
   );

@@ -27,7 +27,7 @@ function Filter() {
   return (
     <div className="filter">
       <h1>
-        Search results for <b>{searchParams.get("city")}</b>
+        Search results for <span>{searchParams.get("city") || "All Cities"}</span>
       </h1>
       <div className="top">
         <div className="item">
@@ -104,8 +104,8 @@ function Filter() {
             defaultValue={query.bedroom}
           />
         </div>
-        <button onClick={handleFilter}>
-          <img src="/search.png" alt="" />
+        <button className="searchBtn" onClick={handleFilter}>
+          <img src="/search.png" alt="Search" />
         </button>
       </div>
     </div>
