@@ -1,11 +1,12 @@
 // ============================================
-// PrimeNest AI Widget Styles
-// Floating Chat Widget with Modern Design
+// PrimeNest Elite AI Widget Styles v3.0
+// Premium SaaS Glassmorphism Panel
+// Flagship Feature - Rainbow Gradient AI
 // ============================================
 
 @import "../../styles/_design-system.scss";
 
-.aiWidget {
+.ai-widget {
   position: fixed;
   bottom: $space-6;
   right: $space-6;
@@ -15,375 +16,574 @@
     bottom: $space-4;
     right: $space-4;
   }
+}
 
-  // Floating Trigger Button
-  .widgetTrigger {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 60px;
-    height: 60px;
-    background: var(--brand-gradient);
-    border: none;
-    border-radius: 50%;
+// ============================================
+// TRIGGER BUTTON - Rainbow Gradient
+// ============================================
+
+.widget-trigger {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  background: var(--rainbow-gradient);
+  background-size: 200% 200%;
+  animation: rainbowShift 3s ease infinite;
+  border: none;
+  border-radius: $radius-full;
+  color: white;
+  cursor: pointer;
+  box-shadow: 
+    var(--shadow-lg),
+    0 0 30px rgba(255, 107, 107, 0.3);
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: scale(1.05);
+    animation: rainbowShift 1.5s ease infinite, rainbowGlow 1.5s ease infinite;
+  }
+
+  .trigger-pulse {
+    position: absolute;
+    inset: 0;
+    border-radius: $radius-full;
+    background: var(--rainbow-gradient);
+    background-size: 200% 200%;
+    animation: pulseRing 2s ease-out infinite, rainbowShift 3s ease infinite;
+  }
+
+  .trigger-label {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    padding: 3px 8px;
+    background: linear-gradient(135deg, #10B981, #059669);
     color: white;
-    cursor: pointer;
-    box-shadow: var(--shadow-xl);
-    transition: all 0.3s ease;
+    font-size: 10px;
+    font-weight: $font-weight-bold;
+    border-radius: $radius-full;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
+  }
+
+  svg {
     position: relative;
-
-    &:hover {
-      transform: scale(1.1);
-      box-shadow: var(--shadow-glow);
-    }
-
-    &:active {
-      transform: scale(0.95);
-    }
-
-    &.hidden {
-      display: none;
-    }
-
-    svg {
-      width: 24px;
-      height: 24px;
-    }
-
-    .pulseRing {
-      position: absolute;
-      inset: 0;
-      border-radius: 50%;
-      background: var(--accent-primary);
-      animation: pulseRing 2s ease-out infinite;
-    }
+    z-index: 1;
   }
+}
 
-  // Widget Panel
-  .widgetPanel {
-    width: 380px;
-    max-width: calc(100vw - $space-8);
-    height: 520px;
-    max-height: calc(100vh - 100px);
-    background: var(--bg-card);
-    border: 1px solid var(--border-light);
-    border-radius: $radius-2xl;
-    box-shadow: var(--shadow-2xl);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    transform-origin: bottom right;
+// ============================================
+// MINIMIZED STATE
+// ============================================
 
-    @include mobile {
-      width: calc(100vw - $space-8);
-      height: calc(100vh - 120px);
-      max-width: none;
-      max-height: none;
-      border-radius: $radius-xl;
-    }
+.widget-minimized {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  padding: $space-3 $space-5;
+  background: var(--surface-glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-glass);
+  border-radius: $radius-full;
+  color: var(--text-primary);
+  font-size: $text-sm;
+  font-weight: $font-weight-medium;
+  cursor: pointer;
+  box-shadow: 
+    var(--shadow-lg),
+    0 0 20px rgba(249, 177, 122, 0.15);
+
+  .minimized-badge {
+    padding: 2px 8px;
+    background: var(--rainbow-gradient);
+    background-size: 200% 200%;
+    animation: rainbowShift 3s ease infinite;
+    color: white;
+    font-size: 10px;
+    font-weight: $font-weight-bold;
+    border-radius: $radius-full;
   }
+}
 
-  // Header
-  .widgetHeader {
+// ============================================
+// WIDGET PANEL - Premium Design
+// ============================================
+
+.widget-panel {
+  width: 400px;
+  height: 580px;
+  max-height: calc(100vh - 100px);
+  display: flex;
+  flex-direction: column;
+  background: var(--surface-glass);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--border-glass);
+  border-radius: $radius-3xl;
+  box-shadow: 
+    var(--shadow-2xl),
+    0 0 60px rgba(249, 177, 122, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+
+  @include mobile {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+    border-radius: 0;
+  }
+}
+
+// ============================================
+// HEADER - Midnight Background
+// ============================================
+
+.widget-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $space-4 $space-5;
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border-subtle);
+
+  .header-left {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: $space-4;
-    background: var(--brand-gradient);
-    color: white;
+    gap: $space-3;
 
-    .headerLeft {
+    .ai-avatar {
       display: flex;
       align-items: center;
-      gap: $space-3;
-
-      .aiAvatar {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 40px;
-        height: 40px;
-        background: rgba(255, 255, 255, 0.2);
-        border-radius: $radius-lg;
-
-        svg {
-          width: 20px;
-          height: 20px;
-        }
-      }
-
-      .headerInfo {
-        h3 {
-          font-size: $font-size-base;
-          font-weight: $font-weight-semibold;
-          margin-bottom: 2px;
-        }
-
-        .status {
-          font-size: $font-size-xs;
-          opacity: 0.9;
-
-          &.online::before {
-            content: "";
-            display: inline-block;
-            width: 6px;
-            height: 6px;
-            background: #7CB07E;
-            border-radius: 50%;
-            margin-right: $space-1;
-          }
-
-          &.thinking::before {
-            content: "";
-            display: inline-block;
-            width: 6px;
-            height: 6px;
-            background: #E8C547;
-            border-radius: 50%;
-            margin-right: $space-1;
-            animation: pulse 1s ease-in-out infinite;
-          }
-        }
-      }
-    }
-
-    .headerActions {
-      display: flex;
-      gap: $space-2;
-
-      button {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 32px;
-        height: 32px;
-        background: rgba(255, 255, 255, 0.1);
-        border: none;
-        border-radius: $radius-md;
-        color: white;
-        cursor: pointer;
-        transition: all 0.2s ease;
-
-        &:hover {
-          background: rgba(255, 255, 255, 0.2);
-        }
-
-        svg {
-          width: 16px;
-          height: 16px;
-        }
-      }
-    }
-  }
-
-  // Messages
-  .widgetMessages {
-    flex: 1;
-    overflow-y: auto;
-    padding: $space-4;
-    display: flex;
-    flex-direction: column;
-    gap: $space-3;
-    background: var(--bg-secondary);
-
-    &::-webkit-scrollbar {
-      width: 6px;
-    }
-
-    &::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background: var(--border-medium);
-      border-radius: $radius-full;
-    }
-
-    .message {
-      display: flex;
-      gap: $space-2;
-      animation-duration: 0.3s;
-
-      &.user {
-        flex-direction: row-reverse;
-
-        .messageBubble {
-          background: var(--accent-primary);
-          color: white;
-          border-radius: $radius-xl $radius-xl 4px $radius-xl;
-        }
-      }
-
-      &.ai {
-        .messageBubble {
-          background: var(--bg-card);
-          border: 1px solid var(--border-light);
-          border-radius: $radius-xl $radius-xl $radius-xl 4px;
-        }
-      }
-
-      .aiAvatar {
-        flex-shrink: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 28px;
-        height: 28px;
-        background: var(--brand-gradient);
-        border-radius: $radius-md;
-        color: white;
-
-        svg {
-          width: 14px;
-          height: 14px;
-        }
-      }
-
-      .messageBubble {
-        max-width: 80%;
-        padding: $space-3 $space-4;
-        font-size: $font-size-sm;
-        line-height: $line-height-relaxed;
-
-        p {
-          margin: 0;
-          color: inherit;
-        }
-
-        .actionLink {
-          display: inline-block;
-          margin-top: $space-2;
-          padding: $space-2 $space-3;
-          background: var(--accent-secondary);
-          color: var(--text-primary);
-          border-radius: $radius-lg;
-          font-size: $font-size-xs;
-          font-weight: $font-weight-semibold;
-          text-decoration: none;
-          transition: all 0.3s ease;
-
-          &:hover {
-            background: var(--accent-primary);
-            color: white;
-          }
-        }
-
-        // Typing indicator
-        &.typing {
-          display: flex;
-          gap: 4px;
-          padding: $space-4;
-
-          span {
-            width: 8px;
-            height: 8px;
-            background: var(--text-tertiary);
-            border-radius: 50%;
-            animation: typingDot 1.4s ease-in-out infinite;
-
-            &:nth-child(1) { animation-delay: 0s; }
-            &:nth-child(2) { animation-delay: 0.2s; }
-            &:nth-child(3) { animation-delay: 0.4s; }
-          }
-        }
-      }
-    }
-  }
-
-  // Input
-  .widgetInput {
-    display: flex;
-    gap: $space-2;
-    padding: $space-4;
-    background: var(--bg-card);
-    border-top: 1px solid var(--border-light);
-
-    input {
-      flex: 1;
-      padding: $space-3 $space-4;
-      background: var(--bg-secondary);
-      border: 1px solid var(--border-light);
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background: var(--rainbow-gradient);
+      background-size: 200% 200%;
+      animation: rainbowShift 3s ease infinite;
       border-radius: $radius-xl;
-      font-size: $font-size-sm;
-      color: var(--text-primary);
-      transition: all 0.3s ease;
-
-      &:focus {
-        outline: none;
-        border-color: var(--accent-primary);
-        box-shadow: 0 0 0 3px rgba(212, 163, 115, 0.2);
-      }
-
-      &::placeholder {
-        color: var(--text-muted);
-      }
+      color: white;
+      box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
     }
 
-    .sendBtn {
+    .header-info {
+      h3 {
+        font-size: $text-base;
+        font-weight: $font-weight-semibold;
+        color: var(--text-primary);
+        margin-bottom: 2px;
+      }
+
+      .status {
+        display: flex;
+        align-items: center;
+        gap: $space-2;
+        font-size: $text-xs;
+        color: var(--text-tertiary);
+
+        .status-dot {
+          width: 8px;
+          height: 8px;
+          background: var(--status-success);
+          border-radius: 50%;
+          box-shadow: 0 0 8px var(--status-success);
+        }
+
+        &.thinking .status-dot {
+          background: var(--status-warning);
+          box-shadow: 0 0 8px var(--status-warning);
+          animation: pulse 1s ease-in-out infinite;
+        }
+      }
+    }
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    button {
       display: flex;
       align-items: center;
       justify-content: center;
       width: 44px;
       height: 44px;
-      background: var(--brand-gradient);
-      border: none;
-      border-radius: 50%;
-      color: white;
+      border-radius: 10px;
       cursor: pointer;
-      transition: all 0.3s ease;
-      flex-shrink: 0;
-
-      &:hover:not(:disabled) {
-        transform: scale(1.05);
-        box-shadow: var(--shadow-md);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      border: none;
+      position: relative;
+      
+      @include mobile {
+        width: 48px;
+        height: 48px;
       }
 
-      &:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-      }
-
+      // Ensure SVG icons inherit color and are visible - BIGGER ICONS
       svg {
-        width: 18px;
-        height: 18px;
+        width: 28px !important;
+        height: 28px !important;
+        min-width: 28px;
+        min-height: 28px;
+        stroke: currentColor !important;
+        stroke-width: 2.5 !important;
+        fill: none !important;
+        display: block !important;
+      }
+
+      // New Chat - Peach accent with white plus icon
+      &:nth-child(1) {
+        background: var(--accent-primary) !important;
+        color: white !important;
+        
+        &:hover {
+          background: var(--accent-primary-hover) !important;
+          transform: scale(1.1);
+        }
+      }
+
+      // Minimize - Slate with white minus icon
+      &:nth-child(2) {
+        background: var(--surface-secondary) !important;
+        color: var(--text-primary) !important;
+        
+        &:hover {
+          background: var(--surface-tertiary) !important;
+          transform: scale(1.1);
+        }
+      }
+
+      // Close - Red with white X icon
+      &:nth-child(3) {
+        background: var(--status-error) !important;
+        color: white !important;
+        
+        &:hover {
+          background: var(--error-dark) !important;
+          transform: scale(1.1);
+        }
       }
     }
   }
 }
 
-// Minimized state - show small bar
-.aiWidget.minimized {
-  .widgetPanel {
-    height: auto;
-    min-height: auto;
 
-    .widgetMessages,
-    .widgetInput {
-      display: none;
+
+// ============================================
+// MESSAGES - Independently Scrollable
+// ============================================
+
+.widget-messages {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: $space-4;
+  display: flex;
+  flex-direction: column;
+  gap: $space-3;
+  min-height: 0; // CRITICAL: Enables flexbox scrolling
+  scroll-behavior: smooth;
+  
+  // Custom scrollbar
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: var(--border-medium);
+    border-radius: $radius-full;
+    
+    &:hover {
+      background: var(--accent-primary);
+    }
+  }
+  
+  // Message animations
+  .message {
+    display: flex;
+    gap: $space-2;
+    max-width: 85%;
+    animation: messageSlide 0.3s ease-out;
+
+    &.user {
+      align-self: flex-end;
+      flex-direction: row-reverse;
+    }
+
+    &.ai {
+      align-self: flex-start;
+    }
+
+    .message-avatar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      background: var(--rainbow-gradient);
+      background-size: 200% 200%;
+      animation: rainbowShift 3s ease infinite;
+      border-radius: $radius-lg;
+      color: white;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(255, 107, 107, 0.3);
+    }
+
+    .message-bubble {
+      padding: $space-3 $space-4;
+      border-radius: $radius-xl;
+      font-size: $text-sm;
+      line-height: $leading-relaxed;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+
+      p {
+        margin: 0;
+        color: inherit;
+      }
+
+      .action-link {
+        display: inline-flex;
+        align-items: center;
+        gap: $space-2;
+        margin-top: $space-3;
+        padding: $space-2 $space-3;
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: $radius-lg;
+        font-size: $text-xs;
+        font-weight: $font-weight-medium;
+        color: inherit;
+        text-decoration: none;
+        transition: all 0.2s ease;
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.25);
+          transform: translateX(2px);
+        }
+      }
+
+      // Suggestion chips
+      .message-suggestions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: $space-2;
+        margin-top: $space-3;
+
+        .suggestion-chip {
+          padding: $space-2 $space-3;
+          background: var(--accent-primary-light);
+          border: 1px solid var(--accent-primary);
+          border-radius: $radius-full;
+          font-size: $text-xs;
+          color: var(--accent-primary);
+          cursor: pointer;
+          transition: all 0.2s ease;
+
+          &:hover {
+            background: var(--accent-primary);
+            color: var(--text-inverse);
+            transform: translateY(-1px);
+          }
+        }
+      }
+    }
+
+    &.user .message-bubble {
+      background: var(--accent-primary);
+      color: var(--text-inverse);
+      border-bottom-right-radius: $radius-sm;
+      box-shadow: 0 4px 12px rgba(249, 177, 122, 0.3);
+    }
+
+    &.ai .message-bubble {
+      background: var(--surface-secondary);
+      color: var(--text-primary);
+      border-bottom-left-radius: $radius-sm;
+      border: 1px solid var(--border-subtle);
+    }
+
+    // Typing indicator
+    .typing {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: $space-3 $space-4;
+
+      span {
+        width: 8px;
+        height: 8px;
+        background: var(--accent-primary);
+        border-radius: 50%;
+        animation: typingPulse 1.4s ease-in-out infinite;
+
+        &:nth-child(1) { animation-delay: 0s; }
+        &:nth-child(2) { animation-delay: 0.15s; }
+        &:nth-child(3) { animation-delay: 0.3s; }
+      }
     }
   }
 }
 
-// Animation for typing dots
-@keyframes typingDot {
+@keyframes messageSlide {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// ============================================
+// QUICK ACTIONS
+// ============================================
+
+.quick-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-2;
+  padding: $space-3 $space-4;
+  background: var(--surface-secondary);
+  border-top: 1px solid var(--border-subtle);
+
+  .quick-action-btn {
+    display: flex;
+    align-items: center;
+    gap: $space-2;
+    padding: $space-2 $space-3;
+    background: var(--surface-primary);
+    border: 1px solid var(--border-default);
+    border-radius: $radius-full;
+    font-size: $text-xs;
+    font-weight: $font-weight-medium;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    svg {
+      color: var(--accent-primary);
+    }
+
+    &:hover {
+      background: var(--accent-primary-light);
+      border-color: var(--accent-primary);
+      color: var(--accent-primary);
+      transform: translateY(-1px);
+    }
+  }
+}
+
+// ============================================
+// INPUT
+// ============================================
+
+.widget-input {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  padding: $space-4;
+  background: var(--surface-secondary);
+  border-top: 1px solid var(--border-subtle);
+
+  input {
+    flex: 1;
+    padding: $space-3 $space-4;
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: $radius-xl;
+    color: var(--text-primary);
+    font-size: $text-sm;
+    transition: all 0.2s ease;
+
+    &:focus {
+      outline: none;
+      border-color: var(--accent-primary);
+      box-shadow: 0 0 0 3px var(--accent-primary-light);
+    }
+
+    &::placeholder {
+      color: var(--input-placeholder);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+    }
+  }
+
+  .send-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    background: var(--rainbow-gradient);
+    background-size: 200% 200%;
+    animation: rainbowShift 3s ease infinite;
+    border: none;
+    border-radius: $radius-xl;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+
+    &:hover:not(:disabled) {
+      transform: scale(1.05);
+      animation: rainbowShift 1.5s ease infinite, rainbowGlow 1.5s ease infinite;
+    }
+
+    &:active:not(:disabled) {
+      transform: scale(0.95);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}
+
+// ============================================
+// ANIMATIONS
+// ============================================
+
+@keyframes pulseRing {
+  0% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+@keyframes typingPulse {
   0%, 60%, 100% {
     transform: translateY(0);
     opacity: 0.4;
   }
   30% {
-    transform: translateY(-4px);
+    transform: translateY(-6px);
     opacity: 1;
   }
 }
 
-// Pulse ring animation
-@keyframes pulseRing {
-  0% {
-    transform: scale(1);
-    opacity: 0.8;
+@keyframes pulse {
+  0%, 100% { 
+    opacity: 1; 
   }
-  100% {
-    transform: scale(1.5);
-    opacity: 0;
+  50% { 
+    opacity: 0.5; 
   }
 }
